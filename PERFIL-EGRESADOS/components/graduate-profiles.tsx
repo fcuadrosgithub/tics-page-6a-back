@@ -16,7 +16,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "1",
     name: "Ana García Hernández",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://www.webconsultas.com/sites/default/files/styles/wc_adaptive_image__small/public/media/0d/articulos/perfil-resilencia.jpg.webp",
     position: "Desarrolladora Full Stack",
     company: "Microsoft México",
     description: "Especialista en desarrollo web y aplicaciones móviles con experiencia en React y Node.js.",
@@ -29,7 +29,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "2",
     name: "Carlos Martínez López",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwr_zZjgvmu4BccwDNIHic8K5dyehw7cSYA&s",
     position: "Ingeniero DevOps",
     company: "Amazon Web Services",
     description: "Experto en infraestructura cloud y automatización de procesos de desarrollo.",
@@ -41,7 +41,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "3",
     name: "Laura Sánchez Ramírez",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://b2472105.smushcdn.com/2472105/wp-content/uploads/2023/01/Perfil-Profesional-_48-820x1024.jpg?lossy=1&strip=1&webp=1",
     position: "Analista de Ciberseguridad",
     company: "Banco de México",
     description: "Especialista en seguridad informática con enfoque en protección de infraestructuras críticas.",
@@ -53,7 +53,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "4",
     name: "Miguel Ángel Pérez Torres",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://pbs.twimg.com/media/GcOCJACW4AANtV1.png",
     position: "Arquitecto de Software",
     company: "IBM México",
     description: "Diseñador de soluciones tecnológicas escalables para grandes empresas.",
@@ -66,7 +66,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "5",
     name: "Sofía Rodríguez Gómez",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Mexican_President_Claudia_Sheinbaum.jpg/1200px-Mexican_President_Claudia_Sheinbaum.jpg",
     position: "Científica de Datos",
     company: "Google",
     description: "Especialista en inteligencia artificial y análisis de datos masivos.",
@@ -79,7 +79,7 @@ const initialGraduates: Graduate[] = [
   {
     id: "6",
     name: "Javier López Mendoza",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "https://cdn.forbes.com.mx/2019/02/Enrique-Pena-Nieto-02.jpg",
     position: "Gerente de Proyectos TI",
     company: "Telmex",
     description: "Coordinador de equipos de desarrollo y experto en metodologías ágiles.",
