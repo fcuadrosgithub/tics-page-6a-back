@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import type { Graduate } from "@/types/graduate"
+import Image from "next/image"
 
 interface AddProfileFormProps {
   onSubmit: (graduate: Graduate) => void
@@ -198,6 +199,38 @@ export function AddProfileForm({ onSubmit, onCancel }: AddProfileFormProps) {
                     className="resize-none rounded-xl bg-secondary/30 border-secondary/50 focus:border-primary/30 focus:ring-primary/20"
                     rows={3}
                   />
+                </div>
+                <div>
+                  <Label htmlFor="photo">URL de la foto de perfil</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="photo"
+                      name="photo"
+                      value={formData.photo}
+                      onChange={handleChange}
+                      placeholder="https://ejemplo.com/mi-foto.jpg"
+                      className="flex-1 rounded-xl bg-secondary/30 border-secondary/50 focus:border-primary/30 focus:ring-primary/20"
+                    />
+                    {formData.photo && formData.photo !== "/placeholder.svg?height=300&width=300" && (
+                      <div className="h-10 w-10 relative rounded-md overflow-hidden border border-secondary/50">
+                        <Image
+                          src={formData.photo || "/placeholder.svg"}
+                          alt="Vista previa"
+                          fill
+                          className="object-cover"
+                          onError={() => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              photo: "/placeholder.svg?height=300&width=300",
+                            }))
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Ingresa la URL de tu foto de perfil. Si no ingresas ninguna, se usará una imagen predeterminada.
+                  </p>
                 </div>
 
                 <div>
