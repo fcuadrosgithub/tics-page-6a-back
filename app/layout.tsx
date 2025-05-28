@@ -1,27 +1,26 @@
 import type React from "react"
-import "@/app/globals.css"
+import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "ITSOEH - Ingeniería en TIC",
-  description: "Egresados de la carrera de Ingeniería en Tecnologías de la Información y Comunicaciones del ITSOEH",
+  description: "Oferta educativa de la carrera de Ingeniería en Tecnologías de la Información y Comunicaciones",
     generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   )
