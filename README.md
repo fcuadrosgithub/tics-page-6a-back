@@ -1,2 +1,5 @@
 # tics-page-6a-back
-# prueba de push lalo
+# Equipo 
+- Jesús Eduardo Vázquez Martínez 
+- Alexis Evaristo Ramirez Perez
+- Edwin
