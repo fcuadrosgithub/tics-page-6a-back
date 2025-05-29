@@ -1,0 +1,58 @@
+{
+  "id": "1",
+  "name": "Ana García Hernández",
+  "photo": "/placeholder.svg?height=300&width=300",
+  "position": "Desarrolladora Full Stack",
+  "company": "Microsoft México",
+  "description": "Especialista en desarrollo web y aplicaciones móviles con experiencia en React y Node.js.",
+  "socialLinks": {
+    "linkedin": "https://linkedin.com/in/anagarcia",
+    "github": "https://github.com/anagarcia",
+    "twitter": "https://twitter.com/anagarcia"
+  },
+  "gender": "femenino",
+  "area": "Desarrollo de Software",
+  "startYear": "2015",
+  "contactInfo": {
+    "email": "ana.garcia@example.com",
+    "phone": "+52 (771) 123 4567",
+    "location": "Ciudad de México, México"
+  },
+  "education": [
+    {
+      "degree": "Ingeniería en Tecnologías de la Información y Comunicaciones",
+      "institution": "Instituto Tecnológico Superior del Occidente del Estado de Hidalgo",
+      "year": "2015-2020",
+      "description": "Especialización en Desarrollo de Software y Sistemas Inteligentes"
+    }
+  ],
+  "experience": [
+    {
+      "position": "Desarrolladora Full Stack",
+      "company": "Microsoft México",
+      "period": "2020-Presente",
+      "description": "Desarrollo de aplicaciones web y móviles utilizando React, Node.js y MongoDB."
+    }
+  ],
+  "skills": [
+    "JavaScript",
+    "React",
+    "Node.js",
+    "MongoDB",
+    "TypeScript",
+    "Git"
+  ],
+  "projects": [
+    {
+      "name": "Sistema de Gestión Hospitalaria",
+      "description": "Plataforma integral para la administración de hospitales.",
+      "technologies": [
+        "React",
+        "Node.js",
+        "MongoDB"
+      ],
+      "year": "2021",
+      "link": "https://github.com/anagarcia/hospital-management"
+    }
+  ]
+}

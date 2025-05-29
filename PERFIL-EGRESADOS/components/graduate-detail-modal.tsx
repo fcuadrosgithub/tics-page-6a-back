@@ -7,6 +7,7 @@ import {
   X,
   Linkedin,
   Github,
+  Twitter,
   Globe,
   Mail,
   Building,
@@ -19,6 +20,10 @@ import {
   Bookmark,
   ChevronDown,
   ChevronUp,
+  Download,
+  Copy,
+  Check,
+  LinkIcon,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -30,113 +35,11 @@ interface GraduateDetailModalProps {
   onClose: () => void
 }
 
-// Datos adicionales simulados para el perfil extendido
-const extendedData = {
-  education: [
-    {
-      degree: "Ingeniería en Tecnologías de la Información y Comunicaciones",
-      institution: "Instituto Tecnológico Superior del Occidente del Estado de Hidalgo",
-      year: "2015-2020",
-      description: "Especialización en Desarrollo de Software y Sistemas Inteligentes",
-    },
-    {
-      degree: "Maestría en Ciencias de la Computación",
-      institution: "Universidad Nacional Autónoma de México",
-      year: "2021-2023",
-      description: "Enfoque en Inteligencia Artificial y Aprendizaje Automático",
-    },
-  ],
-  experience: [
-    {
-      position: "Desarrollador Full Stack",
-      company: "Innovatech Solutions",
-      period: "2020-2022",
-      description:
-        "Desarrollo de aplicaciones web y móviles utilizando React, Node.js y MongoDB. Implementación de APIs RESTful y arquitecturas basadas en microservicios.",
-    },
-    {
-      position: "Ingeniero de Software Senior",
-      company: "Microsoft México",
-      period: "2022-Presente",
-      description:
-        "Liderazgo de equipos de desarrollo para productos cloud. Diseño e implementación de soluciones escalables en Azure. Optimización de rendimiento y seguridad en aplicaciones empresariales.",
-    },
-  ],
-  skills: [
-    "JavaScript/TypeScript",
-    "React",
-    "Node.js",
-    "Python",
-    "AWS",
-    "Azure",
-    "Docker",
-    "Kubernetes",
-    "MongoDB",
-    "SQL",
-    "GraphQL",
-    "CI/CD",
-    "Machine Learning",
-    "Agile/Scrum",
-    "DevOps",
-    "Microservicios",
-  ],
-  projects: [
-    {
-      name: "Sistema de Gestión Hospitalaria",
-      description:
-        "Plataforma integral para la administración de hospitales, incluyendo gestión de pacientes, citas, historiales médicos y facturación.",
-      technologies: ["React", "Node.js", "MongoDB", "Docker"],
-      year: "2021",
-    },
-    {
-      name: "Plataforma de Análisis Predictivo",
-      description:
-        "Sistema de análisis de datos para predecir tendencias de mercado utilizando algoritmos de aprendizaje automático y procesamiento de grandes volúmenes de datos.",
-      technologies: ["Python", "TensorFlow", "AWS", "Kafka"],
-      year: "2022",
-    },
-  ],
-  certifications: [
-    {
-      name: "AWS Certified Solutions Architect",
-      issuer: "Amazon Web Services",
-      year: "2021",
-    },
-    {
-      name: "Microsoft Certified: Azure Developer Associate",
-      issuer: "Microsoft",
-      year: "2022",
-    },
-    {
-      name: "Certified Kubernetes Administrator",
-      issuer: "Cloud Native Computing Foundation",
-      year: "2023",
-    },
-  ],
-  languages: [
-    { name: "Español", level: "Nativo" },
-    { name: "Inglés", level: "Avanzado (C1)" },
-    { name: "Francés", level: "Intermedio (B1)" },
-  ],
-  interests: [
-    "Inteligencia Artificial",
-    "Desarrollo de Videojuegos",
-    "Robótica",
-    "Ciencia de Datos",
-    "Ciberseguridad",
-    "Tecnologías Emergentes",
-  ],
-  achievements: [
-    "Premio a la Innovación Tecnológica 2022 por el desarrollo de soluciones de IA para el sector salud",
-    "Ponente en el Congreso Internacional de Tecnologías de la Información 2023",
-    "Publicación de artículo científico sobre optimización de algoritmos de aprendizaje profundo en la revista IEEE Transactions on Software Engineering",
-  ],
-}
-
 export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalProps) {
   const [activeTab, setActiveTab] = useState("perfil")
   const [showMore, setShowMore] = useState<Record<string, boolean>>({})
   const [isScrolled, setIsScrolled] = useState(false)
+  const [copied, setCopied] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
   // Cerrar modal con la tecla Escape
@@ -175,8 +78,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
       case "github":
         return <Github className="h-5 w-5" />
       case "twitter":
-      case "x":
-        return <X className="h-5 w-5" />
+        return <Twitter className="h-5 w-5" />
       case "website":
         return <Globe className="h-5 w-5" />
       case "email":
@@ -193,6 +95,32 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
     }))
   }
 
+  // Función para descargar JSON
+  const downloadJSON = () => {
+    const dataStr = JSON.stringify(graduate, null, 2)
+    const dataBlob = new Blob([dataStr], { type: "application/json" })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `perfil_${graduate.name.replace(/\s+/g, "_").toLowerCase()}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  // Función para copiar JSON al portapapeles
+  const copyToClipboard = async () => {
+    try {
+      const dataStr = JSON.stringify(graduate, null, 2)
+      await navigator.clipboard.writeText(dataStr)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      console.error("Error copying to clipboard:", error)
+    }
+  }
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm"
@@ -202,26 +130,24 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
       onClick={onClose}
     >
       <motion.div
-        className="bg-card border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-card border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col mx-4"
         initial={{ scale: 0.95, y: 20, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.95, y: 20, opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "hsl(var(--card))",
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
-        }}
       >
         <div className="relative">
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute top-4 right-4 z-10 bg-card/80 backdrop-blur-sm hover:bg-card/90 rounded-full shadow-sm"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <div className="absolute top-4 right-4 z-10 flex gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="bg-card/80 backdrop-blur-sm hover:bg-card/90 rounded-full shadow-sm border"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
 
         <div ref={contentRef} className="flex-1 overflow-y-auto scrollbar-clean">
@@ -235,7 +161,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                 opacity: 1,
               }}
             >
-              {/* Header compacto (siempre presente, se muestra/oculta con CSS) */}
+              {/* Header compacto */}
               <div
                 className="px-6 flex items-center gap-4"
                 style={{
@@ -246,12 +172,12 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                   <Image src={graduate.photo || "/placeholder.svg"} alt={graduate.name} fill className="object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="font-bold text-lg truncate text-card-foreground">{graduate.name}</h2>
+                  <h2 className="font-bold text-lg truncate">{graduate.name}</h2>
                   <p className="text-sm text-primary truncate">{graduate.position}</p>
                 </div>
               </div>
 
-              {/* Header expandido (siempre presente, se muestra/oculta con CSS) */}
+              {/* Header expandido */}
               <div
                 className="flex flex-col md:flex-row"
                 style={{
@@ -266,10 +192,10 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h2 className="font-bold text-2xl mb-1 text-card-foreground drop-shadow-md">{graduate.name}</h2>
+                    <h2 className="font-bold text-2xl mb-1 text-foreground drop-shadow-md">{graduate.name}</h2>
                   </div>
                 </div>
 
@@ -301,7 +227,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors text-sm"
                           >
                             {getSocialIcon(key)}
-                            <span>{key === "x" ? "X (Twitter)" : key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            <span>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
                           </a>
                         ))}
                       </div>
@@ -312,105 +238,162 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
             </div>
 
             {/* Tabs siempre visibles */}
-            <div className="px-6 border-b bg-card">
-              <Tabs defaultValue="perfil" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="w-full justify-start bg-secondary/50">
-                  <TabsTrigger value="perfil">Perfil</TabsTrigger>
-                  <TabsTrigger value="educacion">Educación</TabsTrigger>
-                  <TabsTrigger value="experiencia">Experiencia</TabsTrigger>
-                  <TabsTrigger value="habilidades">Habilidades</TabsTrigger>
-                  <TabsTrigger value="proyectos">Proyectos</TabsTrigger>
+            <div className="px-4 sm:px-6 border-b bg-card">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="w-full justify-start bg-secondary/50 overflow-x-auto">
+                  <TabsTrigger value="perfil" className="whitespace-nowrap">
+                    Perfil
+                  </TabsTrigger>
+                  {graduate.education && graduate.education.length > 0 && (
+                    <TabsTrigger value="educacion" className="whitespace-nowrap">
+                      Educación
+                    </TabsTrigger>
+                  )}
+                  {graduate.experience && graduate.experience.length > 0 && (
+                    <TabsTrigger value="experiencia" className="whitespace-nowrap">
+                      Experiencia
+                    </TabsTrigger>
+                  )}
+                  {graduate.skills && graduate.skills.length > 0 && (
+                    <TabsTrigger value="habilidades" className="whitespace-nowrap">
+                      Habilidades
+                    </TabsTrigger>
+                  )}
+                  {graduate.projects && graduate.projects.length > 0 && (
+                    <TabsTrigger value="proyectos" className="whitespace-nowrap">
+                      Proyectos
+                    </TabsTrigger>
+                  )}
+                  <TabsTrigger value="descargar" className="whitespace-nowrap">
+                    Descargar
+                  </TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
           </div>
 
           {/* Contenido de las pestañas */}
-          <div className="p-6 pt-8">
+          <div className="p-4 sm:p-6 pt-6 sm:pt-8">
             {activeTab === "perfil" && (
               <div className="space-y-6">
-                <div>
-                  <h4 className="text-lg font-medium mb-3">Información de contacto</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
-                      <span>ejemplo@correo.com</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span>+52 (771) 123 4567</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span>Mixquiahuala, Hidalgo, México</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span>Generación 2015-2020</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-medium mb-3">Idiomas</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    {extendedData.languages.map((language, index) => (
-                      <div key={index} className="flex flex-col p-3 bg-secondary/50 rounded-lg">
-                        <span className="font-medium">{language.name}</span>
-                        <span className="text-sm text-muted-foreground">{language.level}</span>
+                {/* Información de contacto */}
+                {graduate.contactInfo && (
+                  <div>
+                    <h4 className="text-lg font-medium mb-3">Información de contacto</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {graduate.contactInfo.email && (
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                          <span>{graduate.contactInfo.email}</span>
+                        </div>
+                      )}
+                      {graduate.contactInfo.phone && (
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-4 w-4 text-muted-foreground" />
+                          <span>{graduate.contactInfo.phone}</span>
+                        </div>
+                      )}
+                      {graduate.contactInfo.location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-muted-foreground" />
+                          <span>{graduate.contactInfo.location}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <span>Generación {graduate.startYear}</span>
                       </div>
-                    ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Información básica */}
+                <div>
+                  <h4 className="text-lg font-medium mb-3">Información básica</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col p-3 bg-secondary/50 rounded-lg">
+                      <span className="text-sm text-muted-foreground">Área de especialización</span>
+                      <span className="font-medium">{graduate.area}</span>
+                    </div>
+                    <div className="flex flex-col p-3 bg-secondary/50 rounded-lg">
+                      <span className="text-sm text-muted-foreground">Género</span>
+                      <span className="font-medium capitalize">{graduate.gender}</span>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-lg font-medium mb-3">Certificaciones</h4>
-                  <div className="space-y-3">
-                    {extendedData.certifications.map((cert, index) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-secondary/50 rounded-lg">
-                        <Award className="h-5 w-5 text-primary mt-0.5" />
-                        <div>
-                          <div className="font-medium">{cert.name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {cert.issuer} • {cert.year}
+                {/* Certificaciones */}
+                {graduate.certifications && graduate.certifications.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-medium mb-3">Certificaciones</h4>
+                    <div className="space-y-3">
+                      {graduate.certifications.map((cert, index) => (
+                        <div key={index} className="flex items-start gap-3 p-3 bg-secondary/50 rounded-lg">
+                          <Award className="h-5 w-5 text-primary mt-0.5" />
+                          <div>
+                            <div className="font-medium">{cert.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {cert.issuer} • {cert.year}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div>
-                  <h4 className="text-lg font-medium mb-3">Logros</h4>
-                  <div className="space-y-2">
-                    {extendedData.achievements.map((achievement, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <Bookmark className="h-4 w-4 text-primary mt-1 shrink-0" />
-                        <p className="text-muted-foreground">{achievement}</p>
-                      </div>
-                    ))}
+                {/* Idiomas */}
+                {graduate.languages && graduate.languages.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-medium mb-3">Idiomas</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      {graduate.languages.map((language, index) => (
+                        <div key={index} className="flex flex-col p-3 bg-secondary/50 rounded-lg">
+                          <span className="font-medium">{language.name}</span>
+                          <span className="text-sm text-muted-foreground">{language.level}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <div>
-                  <h4 className="text-lg font-medium mb-3">Intereses</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {extendedData.interests.map((interest, index) => (
-                      <Badge key={index} variant="outline" className="bg-secondary/50">
-                        {interest}
-                      </Badge>
-                    ))}
+                {/* Logros */}
+                {graduate.achievements && graduate.achievements.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-medium mb-3">Logros</h4>
+                    <div className="space-y-2">
+                      {graduate.achievements.map((achievement, index) => (
+                        <div key={index} className="flex items-start gap-3">
+                          <Bookmark className="h-4 w-4 text-primary mt-1 shrink-0" />
+                          <p className="text-muted-foreground">{achievement}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {/* Intereses */}
+                {graduate.interests && graduate.interests.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-medium mb-3">Intereses</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {graduate.interests.map((interest, index) => (
+                        <Badge key={index} variant="outline" className="bg-secondary/50">
+                          {interest}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
-            {activeTab === "educacion" && (
+            {activeTab === "educacion" && graduate.education && (
               <div className="space-y-6">
                 <div>
                   <h4 className="text-lg font-medium mb-4">Formación académica</h4>
                   <div className="space-y-6">
-                    {extendedData.education.map((edu, index) => (
+                    {graduate.education.map((edu, index) => (
                       <div key={index} className="relative pl-6 border-l-2 border-muted pb-6 last:pb-0">
                         <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-primary"></div>
                         <div className="mb-1">
@@ -421,7 +404,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                           <GraduationCap className="h-4 w-4 text-muted-foreground" />
                           <span className="text-muted-foreground">{edu.institution}</span>
                         </div>
-                        <p className="text-muted-foreground">{edu.description}</p>
+                        {edu.description && <p className="text-muted-foreground">{edu.description}</p>}
                       </div>
                     ))}
                   </div>
@@ -429,12 +412,12 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
               </div>
             )}
 
-            {activeTab === "experiencia" && (
+            {activeTab === "experiencia" && graduate.experience && (
               <div className="space-y-6">
                 <div>
                   <h4 className="text-lg font-medium mb-4">Experiencia profesional</h4>
                   <div className="space-y-6">
-                    {extendedData.experience.map((exp, index) => (
+                    {graduate.experience.map((exp, index) => (
                       <div key={index} className="relative pl-6 border-l-2 border-muted pb-6 last:pb-0">
                         <div className="absolute -left-[9px] top-0 h-4 w-4 rounded-full bg-primary"></div>
                         <div className="mb-1">
@@ -445,28 +428,32 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                           <Building className="h-4 w-4 text-muted-foreground" />
                           <span className="text-muted-foreground">{exp.company}</span>
                         </div>
-                        <p className="text-muted-foreground">
-                          {showMore[`exp-${index}`]
-                            ? exp.description
-                            : `${exp.description.substring(0, 150)}${exp.description.length > 150 ? "..." : ""}`}
-                        </p>
-                        {exp.description.length > 150 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="mt-2 h-8 px-2 text-primary"
-                            onClick={() => toggleShowMore(`exp-${index}`)}
-                          >
-                            {showMore[`exp-${index}`] ? (
-                              <>
-                                <ChevronUp className="h-4 w-4 mr-1" /> Ver menos
-                              </>
-                            ) : (
-                              <>
-                                <ChevronDown className="h-4 w-4 mr-1" /> Ver más
-                              </>
+                        {exp.description && (
+                          <>
+                            <p className="text-muted-foreground">
+                              {showMore[`exp-${index}`]
+                                ? exp.description
+                                : `${exp.description.substring(0, 150)}${exp.description.length > 150 ? "..." : ""}`}
+                            </p>
+                            {exp.description.length > 150 && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="mt-2 h-8 px-2 text-primary"
+                                onClick={() => toggleShowMore(`exp-${index}`)}
+                              >
+                                {showMore[`exp-${index}`] ? (
+                                  <>
+                                    <ChevronUp className="h-4 w-4 mr-1" /> Ver menos
+                                  </>
+                                ) : (
+                                  <>
+                                    <ChevronDown className="h-4 w-4 mr-1" /> Ver más
+                                  </>
+                                )}
+                              </Button>
                             )}
-                          </Button>
+                          </>
                         )}
                       </div>
                     ))}
@@ -475,12 +462,12 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
               </div>
             )}
 
-            {activeTab === "habilidades" && (
+            {activeTab === "habilidades" && graduate.skills && (
               <div className="space-y-6">
                 <div>
                   <h4 className="text-lg font-medium mb-4">Habilidades técnicas</h4>
                   <div className="flex flex-wrap gap-2">
-                    {extendedData.skills.map((skill, index) => (
+                    {graduate.skills.map((skill, index) => (
                       <Badge key={index} className="bg-primary/10 text-primary hover:bg-primary/20 border-0">
                         {skill}
                       </Badge>
@@ -490,27 +477,120 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
               </div>
             )}
 
-            {activeTab === "proyectos" && (
+            {activeTab === "proyectos" && graduate.projects && (
               <div className="space-y-6">
                 <div>
                   <h4 className="text-lg font-medium mb-4">Proyectos destacados</h4>
                   <div className="space-y-6">
-                    {extendedData.projects.map((project, index) => (
+                    {graduate.projects.map((project, index) => (
                       <div key={index} className="p-4 border border-border/50 rounded-lg bg-card shadow-sm">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-medium text-lg">{project.name}</h5>
-                          <Badge variant="outline">{project.year}</Badge>
+                          <div className="flex items-center gap-2">
+                            {project.year && <Badge variant="outline">{project.year}</Badge>}
+                            {project.link && (
+                              <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
+                                title="Ver proyecto"
+                              >
+                                <LinkIcon className="h-4 w-4" />
+                              </a>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-muted-foreground mb-3">{project.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.map((tech, techIndex) => (
-                            <Badge key={techIndex} variant="secondary" className="bg-secondary/70">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
+                        {project.description && <p className="text-muted-foreground mb-3">{project.description}</p>}
+                        {project.technologies && project.technologies.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((tech, techIndex) => (
+                              <Badge key={techIndex} variant="secondary" className="bg-secondary/70">
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "descargar" && (
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-medium mb-4">Exportar perfil</h4>
+                  <p className="text-muted-foreground mb-6">
+                    Descarga o copia la información completa del perfil en formato JSON para respaldo o uso en otras
+                    aplicaciones.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-6 border border-border/50 rounded-xl bg-gradient-to-br from-card to-secondary/30 hover:shadow-md transition-shadow">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Download className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <h5 className="font-medium">Descargar archivo</h5>
+                          <p className="text-sm text-muted-foreground">Guarda como archivo JSON</p>
+                        </div>
+                      </div>
+                      <Button onClick={downloadJSON} className="w-full rounded-xl" size="sm">
+                        <Download className="h-4 w-4 mr-2" />
+                        Descargar JSON
+                      </Button>
+                    </div>
+
+                    <div className="p-6 border border-border/50 rounded-xl bg-gradient-to-br from-card to-secondary/30 hover:shadow-md transition-shadow">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="p-2 bg-accent/10 rounded-lg">
+                          {copied ? (
+                            <Check className="h-5 w-5 text-green-600" />
+                          ) : (
+                            <Copy className="h-5 w-5 text-accent" />
+                          )}
+                        </div>
+                        <div>
+                          <h5 className="font-medium">Copiar al portapapeles</h5>
+                          <p className="text-sm text-muted-foreground">
+                            {copied ? "¡Copiado exitosamente!" : "Copia el JSON completo"}
+                          </p>
+                        </div>
+                      </div>
+                      <Button onClick={copyToClipboard} variant="outline" className="w-full rounded-xl" size="sm">
+                        {copied ? (
+                          <>
+                            <Check className="h-4 w-4 mr-2 text-green-600" />
+                            Copiado
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="h-4 w-4 mr-2" />
+                            Copiar JSON
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 p-4 bg-muted/30 rounded-xl border border-dashed border-muted-foreground/30">
+                    <div className="flex items-start gap-3">
+                      <div className="p-1 bg-blue-100 dark:bg-blue-900 rounded-full mt-0.5">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium text-muted-foreground mb-1">Información del archivo</p>
+                        <ul className="text-muted-foreground space-y-1">
+                          <li>• Formato: JSON estructurado</li>
+                          <li>• Incluye: Toda la información del perfil</li>
+                          <li>• Compatible: Con sistemas de gestión de datos</li>
+                          <li>• Tamaño: Aproximadamente {Math.round(JSON.stringify(graduate).length / 1024)} KB</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

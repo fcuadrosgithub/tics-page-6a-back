@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Search, Plus, Filter } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button"
 import { GraduateCard } from "@/components/graduate-card"
 import { AddProfileForm } from "@/components/add-profile-form"
 import type { Graduate } from "@/types/graduate"
-import { GraduateDetailModal } from "@/components/graduate-detail-modal"
+// Asegurarnos de que la importación sea correcta
+import { GraduateDetailModal } from "./graduate-detail-modal"
 import { AnimatePresence } from "framer-motion"
 import { FilterModal } from "@/components/filter-modal"
-import { useLocalStorage } from "@/hooks/use-local-storage"
 
 // Función para normalizar texto (quitar acentos)
 const normalizeText = (text: string): string => {
@@ -21,82 +21,127 @@ const normalizeText = (text: string): string => {
     .replace(/[\u0300-\u036f]/g, "")
 }
 
-// Datos de ejemplo iniciales
-const defaultGraduates: Graduate[] = [
+// Datos de ejemplo actualizados
+const initialGraduates: Graduate[] = [
   {
-    id: "1",
-    name: "Ana García Hernández",
-    photo: "/placeholder.svg?height=300&width=300",
+  id: "1",
+  name: "Jesús Eduardo Vázquez Martínez",
+  position: "Líder de proyectos Inteligencia Artificial",
+  company: "ITSOEH",
+  description: "Estudiantede TIC en ITSOEH, apasionado por la tecnología, los proyectos sociales y el desarrollo de soluciones innovadoras usando inteligencia artificial, IoT y sistemas distribuidos.",
+  photo: "/lalo.jpg?height=300&width=300",
+  startYear: 2022,
+  socialLinks: {
+    github: "https://github.com/EDUARDOVAZQUE"
+  },
+  contactInfo: {
+    email: "22011935@itsoeh.edu.mx",
+    phone: "7731999004",
+    location: "Progreso de Obregón, Hidalgo"
+  },
+  education: [
+    {
+      degree: "Ingeniería en Tecnologías de la Información y Comunicaciones",
+      institution: "Instituto Tecnológico Superior del Occidente del Estado de Hidalgo (ITSOEH)",
+      year: "2022-2026",
+      description: "Formación integral con enfoque en desarrollo de software, sistemas distribuidos, redes, y proyectos tecnológicos aplicados."
+    }
+  ],
+  experience: [
+    {
+      position: "Líder de Proyecto",
+      company: "Creative Coders - ITSOEH",
+      period: "2024 - Presente",
+      description: "Liderazgo del desarrollo de un sistema distribuido de inventario como microservicio para OXXO, incluyendo la definición del modelo de datos, arquitectura distribuida, y pruebas en SQL Server."
+    },
+    {
+      position: "Desarrollador de prototipos",
+      company: "ITSOEH",
+      period: "2023 - Presente",
+      description: "Desarrollo de prototipos tecnológicos con ESP32, Arduino y Node-RED, incluyendo sensores ambientales, módulos de cámara FPV y vehículos autónomos controlados por Bluetooth."
+    }
+  ],
+  skills: [
+    "Desarrollo con Arduino y ESP32",
+    "Bases de datos distribuidas",
+    "SQL Server",
+    "Node-RED",
+    "Desarrollo web con PHP y Bootstrap",
+    "Redes con Packet Tracer",
+    "Electrónica básica",
+    "Liderazgo de proyectos"
+  ],
+  projects: [
+    {
+      name: "RiderSafe",
+      description: "Proyecto de seguridad para motociclistas mediante IoT, enfocado en la detección de accidentes y localización en tiempo real.",
+      technologies: [
+        "ESP32",
+        "Sensores de impacto",
+        "GPS",
+        "Bluetooth",
+        "Node-RED"
+      ],
+      year: "2025",
+      link: "https://github.com/EDUARDOVAZQUE/RiderSafe"
+    },
+    {
+      name: "Sistema de Inventario Distribuido",
+      description: "Sistema escalable para la gestión de inventarios entre sucursales usando microservicios y bases de datos replicadas.",
+      technologies: [
+        "PHP",
+        "SQL Server",
+        "Bootstrap",
+        "JSON",
+        "Replicación de datos"
+      ],
+      year: "2024",
+      link: "https://github.com/EDUARDOVAZQUE"
+    }
+  ],
+  interests: [
+    "Inteligencia Artificial aplicada",
+    "IoT (Internet de las Cosas)",
+    "Sistemas distribuidos",
+    "Electrónica y hardware libre",
+    "Desarrollo web",
+    "Tecnología social",
+    "Aprendizaje autodidacta"
+  ],
+  achievements: [
+    "Liderar proyecto para cliente real (OXXO)",
+    "Desarrollo de prototipos funcionales de drones y autos RC",
+    "Implementación de bases de datos distribuidas con replicación",
+    "Simulación avanzada de redes en Packet Tracer"
+  ]
+},
+  {
+    id: "2",
+    name: "Kaory Gissel Contreras Álvarez",
+    photo: "/kao.jpg?height=300&width=300",
     position: "Desarrolladora Full Stack",
     company: "Microsoft México",
     description: "Especialista en desarrollo web y aplicaciones móviles con experiencia en React y Node.js.",
     socialLinks: {
-      linkedin: "https://linkedin.com/in/anagarcia",
-      github: "https://github.com/anagarcia",
-      twitter: "https://twitter.com/anagarcia",
+      github: "https://github.com/KaoryAlvarez"
     },
     gender: "femenino",
     area: "Desarrollo de Software",
-    startYear: "2015",
+    startYear: "2022",
     contactInfo: {
-      email: "ana.garcia@example.com",
-      phone: "+52 (771) 123 4567",
-      location: "Ciudad de México, México",
-    },
-    education: [
-      {
-        degree: "Ingeniería en Tecnologías de la Información y Comunicaciones",
-        institution: "Instituto Tecnológico Superior del Occidente del Estado de Hidalgo",
-        year: "2015-2020",
-        description: "Especialización en Desarrollo de Software y Sistemas Inteligentes",
-      },
-    ],
-    experience: [
-      {
-        position: "Desarrolladora Full Stack",
-        company: "Microsoft México",
-        period: "2020-Presente",
-        description: "Desarrollo de aplicaciones web y móviles utilizando React, Node.js y MongoDB.",
-      },
-    ],
-    skills: ["JavaScript", "React", "Node.js", "MongoDB", "TypeScript", "Git"],
-    projects: [
-      {
-        name: "Sistema de Gestión Hospitalaria",
-        description: "Plataforma integral para la administración de hospitales.",
-        technologies: ["React", "Node.js", "MongoDB"],
-        year: "2021",
-        link: "https://github.com/anagarcia/hospital-management",
-      },
-    ],
+      email: "22011435@itsoeh.edu.mx",
+      phone: "+52 (772) 106 3176",
+      location: "Actopan, Hidalgo"
+    }
   },
-  {
-    id: "2",
-    name: "Carlos Martínez López",
-    photo: "/placeholder.svg?height=300&width=300",
-    position: "Ingeniero DevOps",
-    company: "Amazon Web Services",
-    description: "Experto en infraestructura cloud y automatización de procesos de desarrollo.",
-    socialLinks: {
-      linkedin: "https://linkedin.com/in/carlosmartinez",
-      github: "https://github.com/carlosmartinez",
-    },
-    gender: "masculino",
-    area: "Infraestructura y Cloud",
-    startYear: "2014",
-    contactInfo: {
-      email: "carlos.martinez@example.com",
-      phone: "+52 (771) 234 5678",
-      location: "Guadalajara, México",
-    },
-  },
+
   {
     id: "3",
     name: "Laura Sánchez Ramírez",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "/mujer.jpg?height=300&width=300",
     position: "Analista de Ciberseguridad",
     company: "Banco de México",
-    description: "Especialista en seguridad informática con enfoque en protección de infraestructuras críticas.",
+    description: "Datos de ejemplo, imagen de perfil para mujer por defecto.",
     socialLinks: {
       linkedin: "https://linkedin.com/in/laurasanchez",
       twitter: "https://twitter.com/laurasanchez",
@@ -108,10 +153,10 @@ const defaultGraduates: Graduate[] = [
   {
     id: "4",
     name: "Miguel Ángel Pérez Torres",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "/hombre.jpg?height=300&width=300",
     position: "Arquitecto de Software",
     company: "IBM México",
-    description: "Diseñador de soluciones tecnológicas escalables para grandes empresas.",
+    description: "Datos de ejemplo, imagen de perfil para hombre por defecto.",
     socialLinks: {
       linkedin: "https://linkedin.com/in/miguelperez",
       github: "https://github.com/miguelperez",
@@ -124,33 +169,19 @@ const defaultGraduates: Graduate[] = [
   {
     id: "5",
     name: "Sofía Rodríguez Gómez",
-    photo: "/placeholder.svg?height=300&width=300",
+    photo: "/indefinido.jpg?height=300&width=300",
     position: "Científica de Datos",
     company: "Google",
-    description: "Especialista en inteligencia artificial y análisis de datos masivos.",
+    description: "Datos de ejemplo, imagen de perfil indefinido por defecto.",
     socialLinks: {
       linkedin: "https://linkedin.com/in/sofiarodriguez",
       github: "https://github.com/sofiarodriguez",
       twitter: "https://twitter.com/sofiarodriguez",
     },
-    gender: "femenino",
+    gender: "indefinido",
     area: "Ciencia de Datos",
     startYear: "2017",
-  },
-  {
-    id: "6",
-    name: "Javier López Mendoza",
-    photo: "/placeholder.svg?height=300&width=300",
-    position: "Gerente de Proyectos TI",
-    company: "Telmex",
-    description: "Coordinador de equipos de desarrollo y experto en metodologías ágiles.",
-    socialLinks: {
-      linkedin: "https://linkedin.com/in/javierlopez",
-    },
-    gender: "masculino",
-    area: "Gestión de Proyectos",
-    startYear: "2012",
-  },
+  }
 ]
 
 // Generar años para el filtro (desde 2010 hasta el año actual)
@@ -164,18 +195,32 @@ const generateYearOptions = (): string[] => {
 }
 
 export function GraduateProfiles() {
-  // Usar localStorage para persistir los datos
-  const [graduates, setGraduates] = useLocalStorage<Graduate[]>("itsoeh-graduates", defaultGraduates)
-  const [searchTerm, setSearchTerm] = useLocalStorage<string>("itsoeh-search-term", "")
-  const [filters, setFilters] = useLocalStorage("itsoeh-filters", {
+  const [graduates, setGraduates] = useState<Graduate[]>(initialGraduates)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [selectedGraduate, setSelectedGraduate] = useState<Graduate | null>(null)
+  const [filters, setFilters] = useState({
     gender: "",
     area: "",
     startYear: "",
   })
-
-  const [isFormOpen, setIsFormOpen] = useState(false)
-  const [selectedGraduate, setSelectedGraduate] = useState<Graduate | null>(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+
+  useEffect(() => {
+    const savedGraduates = localStorage.getItem("itsoeh-graduates")
+    if (savedGraduates) {
+      try {
+        const parsed = JSON.parse(savedGraduates)
+        setGraduates(parsed)
+      } catch (error) {
+        console.error("Error loading saved graduates:", error)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("itsoeh-graduates", JSON.stringify(graduates))
+  }, [graduates])
 
   // Obtener valores únicos para los filtros
   const uniqueAreas = [...new Set(graduates.map((g) => g.area))].sort()
@@ -205,19 +250,6 @@ export function GraduateProfiles() {
   const handleAddGraduate = (newGraduate: Graduate) => {
     setGraduates((prev) => [newGraduate, ...prev])
     setIsFormOpen(false)
-  }
-
-  // Función para resetear todos los datos (útil para desarrollo/testing)
-  const resetData = () => {
-    if (confirm("¿Estás seguro de que quieres resetear todos los datos? Esta acción no se puede deshacer.")) {
-      setGraduates(defaultGraduates)
-      setSearchTerm("")
-      setFilters({
-        gender: "",
-        area: "",
-        startYear: "",
-      })
-    }
   }
 
   const container = {
@@ -257,22 +289,7 @@ export function GraduateProfiles() {
               <Plus className="h-4 w-4" />
               <span>Añadir mi perfil</span>
             </Button>
-            {/* Botón para resetear datos (solo visible en desarrollo) */}
-            {process.env.NODE_ENV === "development" && (
-              <Button variant="destructive" size="sm" onClick={resetData} className="rounded-xl text-xs">
-                Reset
-              </Button>
-            )}
           </div>
-        </div>
-
-        {/* Mostrar estadísticas */}
-        <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
-          <span>Total de egresados: {graduates.length}</span>
-          <span>Resultados mostrados: {filteredGraduates.length}</span>
-          {graduates.length > defaultGraduates.length && (
-            <span className="text-primary">Nuevos registros: {graduates.length - defaultGraduates.length}</span>
-          )}
         </div>
       </div>
 

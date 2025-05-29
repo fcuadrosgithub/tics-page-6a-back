@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Linkedin, Github, Globe, Mail, Upload, User, Plus, Trash2, LinkIcon } from "lucide-react"
+import { X, Linkedin, Github, Twitter, Globe, Mail, Upload, User, Plus, Trash2, LinkIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,7 +21,7 @@ interface AddProfileFormProps {
   yearOptions: string[]
 }
 
-type SocialMediaType = "linkedin" | "github" | "x" | "website" | "email"
+type SocialMediaType = "linkedin" | "github" | "twitter" | "website" | "email"
 
 interface SocialMediaOption {
   id: SocialMediaType
@@ -44,10 +44,10 @@ const socialMediaOptions: SocialMediaOption[] = [
     placeholder: "https://github.com/username",
   },
   {
-    id: "x",
-    label: "X (Twitter)",
-    icon: <X className="h-4 w-4" />,
-    placeholder: "https://x.com/username",
+    id: "twitter",
+    label: "Twitter",
+    icon: <Twitter className="h-4 w-4" />,
+    placeholder: "https://twitter.com/username",
   },
   {
     id: "website",
@@ -85,12 +85,12 @@ const predefinedAreas = [
 const getDefaultPhoto = (gender: string): string => {
   switch (gender) {
     case "masculino":
-      return "/placeholder.svg?height=300&width=300&text=👨"
+      return "/hombre.jpg"
     case "femenino":
-      return "/placeholder.svg?height=300&width=300&text=👩"
+      return "/mujer.jpg"
     case "indefinido":
     default:
-      return "/placeholder.svg?height=300&width=300&text=👤"
+      return "/indefinido.jpg"
   }
 }
 
@@ -383,10 +383,6 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
         <motion.div
           className="bg-card border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto"
           variants={modalVariants}
-          style={{
-            background: "hsl(var(--card))",
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
-          }}
         >
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
