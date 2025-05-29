@@ -98,7 +98,7 @@ function ITSOEHPage() {
           <div className="flex items-center gap-2">
             <div className="relative h-8 w-8">
               <Image
-                src="/placeholder.svg?height=32&width=32&text=ITSOEH"
+                src="/logo.jpg?height=32&width=32&text=ITSOEH"
                 alt="ITSOEH Logo"
                 fill
                 className="object-contain"
@@ -134,11 +134,11 @@ function ITSOEHPage() {
       >
         <div className="absolute inset-0 z-0">
           <Image
-            src="/placeholder.svg?height=800&width=1200&text=Campus+ITSOEH"
+            src="/fondo.jpg?height=800&width=1200&text=Campus+ITSOEH"
             alt="Campus ITSOEH"
             fill
-            className="object-cover opacity-20"
-            priority
+        
+        
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80 z-10"></div>
@@ -917,7 +917,7 @@ function ITSOEHPage() {
               <div className="flex items-center gap-2">
                 <div className="relative h-8 w-8">
                   <Image
-                    src="/placeholder.svg?height=32&width=32&text=ITSOEH"
+                    src="/logo.jpg??height=32&width=32&text=ITSOEH"
                     alt="ITSOEH Logo"
                     fill
                     className="object-contain"
@@ -934,44 +934,24 @@ function ITSOEHPage() {
               <h4 className="font-semibold">Servicios</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                 
                     Portal de Egresados
-                  </Link>
+                  
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                 
                     Proceso de Titulación
-                  </Link>
+                  
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                 
                     Bolsa de Trabajo
-                  </Link>
+                 
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                 
                     Biblioteca Digital
-                  </Link>
+                  
                 </li>
               </ul>
             </div>
@@ -979,44 +959,24 @@ function ITSOEHPage() {
               <h4 className="font-semibold">-------------</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                  
                     Admisiones
-                  </Link>
+                  
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                 
                     Becas y Apoyos
-                  </Link>
+                  
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                
                     Posgrados
-                  </Link>
+                  
                 </li>
                 <li>
-                  <Link
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-primary transition-colors"
-                  >
+                
                     Transparencia
-                  </Link>
+                
                 </li>
               </ul>
             </div>
@@ -1026,22 +986,12 @@ function ITSOEHPage() {
               © 2025 Instituto Tecnológico Superior del Occidente del Estado de Hidalgo. Todos los derechos reservados.
             </p>
             <div className="flex items-center gap-4">
-              <Link
-                href=""
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium hover:text-primary transition-colors"
-              >
+             
                 Aviso de Privacidad
-              </Link>
-              <Link
-                href=""
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium hover:text-primary transition-colors"
-              >
+             
+             
                 Términos y Condiciones
-              </Link>
+             
             </div>
           </div>
         </div>
