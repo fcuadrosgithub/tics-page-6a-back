@@ -2,9 +2,9 @@
 
 **Desarrollado por Jesús Eduardo Vázquez Martínez**
 **Puedes acceder a esta página sin necesidad de descargar ningún archivo.**  
-👉 Solo entra al siguiente enlace:
+👉 Solo entra al siguiente enlace en una nueva pestaña:
 
-**[https://tics-page-6a-back-lalo.vercel.app/]()**
+ttps://tics-page-6a-back-lalo.vercel.app
 
 ## ✨ Características principales
 
