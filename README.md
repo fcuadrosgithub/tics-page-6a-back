@@ -22,7 +22,7 @@ https://tics-page-6a-back-lalo.vercel.app
 
 - 🧑‍🎓 **Información de egresados**  
   - Cada tarjeta incluye datos del egresado junto con una imagen personalizada o una imagen por defecto según su género.
-![Informacion](informacion.png)
+![Informacion](info.png)
 
 - 🚧 **Vistas en construcción**  
   - Las secciones de *Estudiantes*, *Aspirantes* y *Público general* muestran una pantalla de "Trabajo en proceso".
