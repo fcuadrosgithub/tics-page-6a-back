@@ -43,14 +43,14 @@ export function FilterModal({ filters, onFiltersChange, onClose, uniqueAreas, ye
       onClick={onClose}
     >
       <motion.div
-        className="bg-white border rounded-2xl shadow-lg w-full max-w-md"
+        className="bg-card border rounded-2xl shadow-lg w-full max-w-md"
         initial={{ scale: 0.95, y: 20, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.95, y: 20, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "linear-gradient(to bottom, #ffffff, #f8fafc)",
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)",
+          background: "hsl(var(--card))",
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
         }}
       >
         <div className="p-6">

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Linkedin, Github, Twitter, Globe, Mail, Upload, User, Plus, Trash2, LinkIcon } from 'lucide-react'
+import { X, Linkedin, Github, Globe, Mail, Upload, User, Plus, Trash2, LinkIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -14,7 +14,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import type { Graduate, Education, Experience, Project, Certification, Language, ContactInfo } from "@/types/graduate"
 import Image from "next/image"
-import { link } from "fs"
 
 interface AddProfileFormProps {
   onSubmit: (graduate: Graduate) => void
@@ -22,7 +21,7 @@ interface AddProfileFormProps {
   yearOptions: string[]
 }
 
-type SocialMediaType = "linkedin" | "github" | "X" | "website" | "email"
+type SocialMediaType = "linkedin" | "github" | "x" | "website" | "email"
 
 interface SocialMediaOption {
   id: SocialMediaType
@@ -45,10 +44,10 @@ const socialMediaOptions: SocialMediaOption[] = [
     placeholder: "https://github.com/username",
   },
   {
-    id: "X",
-    label: "X",
-    icon: <Twitter className="h-4 w-4" />,
-    placeholder: "https://X.com/username",
+    id: "x",
+    label: "X (Twitter)",
+    icon: <X className="h-4 w-4" />,
+    placeholder: "https://x.com/username",
   },
   {
     id: "website",
@@ -86,15 +85,14 @@ const predefinedAreas = [
 const getDefaultPhoto = (gender: string): string => {
   switch (gender) {
     case "masculino":
-      return "/hombre.jpg"
+      return "/placeholder.svg?height=300&width=300&text=👨"
     case "femenino":
-      return "/mujer.jpg"
+      return "/placeholder.svg?height=300&width=300&text=👩"
     case "indefinido":
     default:
-      return "/mujer.jpg"
+      return "/placeholder.svg?height=300&width=300&text=👤"
   }
 }
-
 
 export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFormProps) {
   const [activeTab, setActiveTab] = useState("perfil")
@@ -383,11 +381,11 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
         variants={backdropVariants}
       >
         <motion.div
-          className="bg-white border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+          className="bg-card border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto"
           variants={modalVariants}
           style={{
-            background: "linear-gradient(to bottom, #ffffff, #f8fafc)",
-            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)",
+            background: "hsl(var(--card))",
+            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
           }}
         >
           <div className="p-6">
@@ -428,10 +426,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <Label htmlFor="gender">Género *</Label>
-                        <Select
-                          value={formData.gender}
-                          onValueChange={(value) => handleSelectChange("gender", value)}
-                        >
+                        <Select value={formData.gender} onValueChange={(value) => handleSelectChange("gender", value)}>
                           <SelectTrigger className="rounded-xl bg-secondary/30 border-secondary/50 focus:border-primary/30 focus:ring-primary/20">
                             <SelectValue placeholder="Selecciona género" />
                           </SelectTrigger>
@@ -715,7 +710,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={edu.degree}
                               onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
                               placeholder="Ej. Ingeniería en Tecnologías de la Información"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -726,7 +721,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={edu.institution}
                               onChange={(e) => handleEducationChange(index, "institution", e.target.value)}
                               placeholder="Ej. Instituto Tecnológico Superior del Occidente del Estado de Hidalgo"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -737,7 +732,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={edu.year}
                               onChange={(e) => handleEducationChange(index, "year", e.target.value)}
                               placeholder="Ej. 2015-2020"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -748,7 +743,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={edu.description}
                               onChange={(e) => handleEducationChange(index, "description", e.target.value)}
                               placeholder="Ej. Especialización en Desarrollo de Software"
-                              className="resize-none rounded-xl bg-white border-secondary/50"
+                              className="resize-none rounded-xl bg-background border-secondary/50"
                               rows={2}
                             />
                           </div>
@@ -796,7 +791,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={exp.position}
                               onChange={(e) => handleExperienceChange(index, "position", e.target.value)}
                               placeholder="Ej. Desarrollador Full Stack"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -807,7 +802,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={exp.company}
                               onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
                               placeholder="Ej. Microsoft México"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -818,7 +813,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={exp.period}
                               onChange={(e) => handleExperienceChange(index, "period", e.target.value)}
                               placeholder="Ej. 2020-Presente"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -829,7 +824,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={exp.description}
                               onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
                               placeholder="Ej. Desarrollo de aplicaciones web y móviles utilizando React y Node.js"
-                              className="resize-none rounded-xl bg-white border-secondary/50"
+                              className="resize-none rounded-xl bg-background border-secondary/50"
                               rows={2}
                             />
                           </div>
@@ -989,7 +984,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={project.name}
                               onChange={(e) => handleProjectChange(index, "name", e.target.value)}
                               placeholder="Ej. Sistema de Gestión Hospitalaria"
-                              className="rounded-xl bg-white border-secondary/50"
+                              className="rounded-xl bg-background border-secondary/50"
                             />
                           </div>
 
@@ -1000,7 +995,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                               value={project.description}
                               onChange={(e) => handleProjectChange(index, "description", e.target.value)}
                               placeholder="Ej. Plataforma integral para la administración de hospitales"
-                              className="resize-none rounded-xl bg-white border-secondary/50"
+                              className="resize-none rounded-xl bg-background border-secondary/50"
                               rows={2}
                             />
                           </div>
@@ -1013,7 +1008,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                                 value={project.year}
                                 onChange={(e) => handleProjectChange(index, "year", e.target.value)}
                                 placeholder="Ej. 2021"
-                                className="rounded-xl bg-white border-secondary/50"
+                                className="rounded-xl bg-background border-secondary/50"
                               />
                             </div>
 
@@ -1028,7 +1023,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                                   value={project.link || ""}
                                   onChange={(e) => handleProjectChange(index, "link", e.target.value)}
                                   placeholder="https://github.com/username/project"
-                                  className="rounded-l-none rounded-r-xl bg-white border-secondary/50"
+                                  className="rounded-l-none rounded-r-xl bg-background border-secondary/50"
                                 />
                               </div>
                             </div>
@@ -1053,7 +1048,7 @@ export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFo
                             <div className="flex gap-2">
                               <Input
                                 placeholder="Ej. React"
-                                className="rounded-xl bg-white border-secondary/50"
+                                className="rounded-xl bg-background border-secondary/50"
                                 onKeyDown={(e) => {
                                   if (e.key === "Enter") {
                                     e.preventDefault()

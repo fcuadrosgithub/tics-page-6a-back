@@ -11,6 +11,7 @@ import type { Graduate } from "@/types/graduate"
 import { GraduateDetailModal } from "@/components/graduate-detail-modal"
 import { AnimatePresence } from "framer-motion"
 import { FilterModal } from "@/components/filter-modal"
+import { useLocalStorage } from "@/hooks/use-local-storage"
 
 // Función para normalizar texto (quitar acentos)
 const normalizeText = (text: string): string => {
@@ -20,8 +21,8 @@ const normalizeText = (text: string): string => {
     .replace(/[\u0300-\u036f]/g, "")
 }
 
-// Datos de ejemplo actualizados
-const initialGraduates: Graduate[] = [
+// Datos de ejemplo iniciales
+const defaultGraduates: Graduate[] = [
   {
     id: "1",
     name: "Ana García Hernández",
@@ -32,7 +33,7 @@ const initialGraduates: Graduate[] = [
     socialLinks: {
       linkedin: "https://linkedin.com/in/anagarcia",
       github: "https://github.com/anagarcia",
-      X: "https://X.com/anagarcia",
+      twitter: "https://twitter.com/anagarcia",
     },
     gender: "femenino",
     area: "Desarrollo de Software",
@@ -98,7 +99,7 @@ const initialGraduates: Graduate[] = [
     description: "Especialista en seguridad informática con enfoque en protección de infraestructuras críticas.",
     socialLinks: {
       linkedin: "https://linkedin.com/in/laurasanchez",
-      X: "https://X.com/laurasanchez",
+      twitter: "https://twitter.com/laurasanchez",
     },
     gender: "femenino",
     area: "Ciberseguridad",
@@ -130,7 +131,7 @@ const initialGraduates: Graduate[] = [
     socialLinks: {
       linkedin: "https://linkedin.com/in/sofiarodriguez",
       github: "https://github.com/sofiarodriguez",
-      X: "https://X.com/sofiarodriguez",
+      twitter: "https://twitter.com/sofiarodriguez",
     },
     gender: "femenino",
     area: "Ciencia de Datos",
@@ -163,15 +164,17 @@ const generateYearOptions = (): string[] => {
 }
 
 export function GraduateProfiles() {
-  const [graduates, setGraduates] = useState<Graduate[]>(initialGraduates)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [isFormOpen, setIsFormOpen] = useState(false)
-  const [selectedGraduate, setSelectedGraduate] = useState<Graduate | null>(null)
-  const [filters, setFilters] = useState({
+  // Usar localStorage para persistir los datos
+  const [graduates, setGraduates] = useLocalStorage<Graduate[]>("itsoeh-graduates", defaultGraduates)
+  const [searchTerm, setSearchTerm] = useLocalStorage<string>("itsoeh-search-term", "")
+  const [filters, setFilters] = useLocalStorage("itsoeh-filters", {
     gender: "",
     area: "",
     startYear: "",
   })
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [selectedGraduate, setSelectedGraduate] = useState<Graduate | null>(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   // Obtener valores únicos para los filtros
@@ -202,6 +205,19 @@ export function GraduateProfiles() {
   const handleAddGraduate = (newGraduate: Graduate) => {
     setGraduates((prev) => [newGraduate, ...prev])
     setIsFormOpen(false)
+  }
+
+  // Función para resetear todos los datos (útil para desarrollo/testing)
+  const resetData = () => {
+    if (confirm("¿Estás seguro de que quieres resetear todos los datos? Esta acción no se puede deshacer.")) {
+      setGraduates(defaultGraduates)
+      setSearchTerm("")
+      setFilters({
+        gender: "",
+        area: "",
+        startYear: "",
+      })
+    }
   }
 
   const container = {
@@ -241,7 +257,22 @@ export function GraduateProfiles() {
               <Plus className="h-4 w-4" />
               <span>Añadir mi perfil</span>
             </Button>
+            {/* Botón para resetear datos (solo visible en desarrollo) */}
+            {process.env.NODE_ENV === "development" && (
+              <Button variant="destructive" size="sm" onClick={resetData} className="rounded-xl text-xs">
+                Reset
+              </Button>
+            )}
           </div>
+        </div>
+
+        {/* Mostrar estadísticas */}
+        <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
+          <span>Total de egresados: {graduates.length}</span>
+          <span>Resultados mostrados: {filteredGraduates.length}</span>
+          {graduates.length > defaultGraduates.length && (
+            <span className="text-primary">Nuevos registros: {graduates.length - defaultGraduates.length}</span>
+          )}
         </div>
       </div>
 

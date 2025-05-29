@@ -7,7 +7,6 @@ import {
   X,
   Linkedin,
   Github,
-  Twitter,
   Globe,
   Mail,
   Building,
@@ -175,8 +174,9 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
         return <Linkedin className="h-5 w-5" />
       case "github":
         return <Github className="h-5 w-5" />
-      case "X":
-        return <Twitter className="h-5 w-5" />
+      case "twitter":
+      case "x":
+        return <X className="h-5 w-5" />
       case "website":
         return <Globe className="h-5 w-5" />
       case "email":
@@ -202,22 +202,22 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
       onClick={onClose}
     >
       <motion.div
-        className="bg-white border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
+        className="bg-card border rounded-2xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col"
         initial={{ scale: 0.95, y: 20, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.95, y: 20, opacity: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "linear-gradient(to bottom, #ffffff, #f8fafc)",
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)",
+          background: "hsl(var(--card))",
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)",
         }}
       >
         <div className="relative">
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur-sm hover:bg-white/90 rounded-full shadow-sm"
+            className="absolute top-4 right-4 z-10 bg-card/80 backdrop-blur-sm hover:bg-card/90 rounded-full shadow-sm"
             onClick={onClose}
           >
             <X className="h-4 w-4" />
@@ -225,7 +225,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
         </div>
 
         <div ref={contentRef} className="flex-1 overflow-y-auto scrollbar-clean">
-          <div className="sticky top-0 z-10 bg-white shadow-sm transition-shadow duration-300">
+          <div className="sticky top-0 z-10 bg-card shadow-sm transition-shadow duration-300">
             {/* Header que cambia de tamaño */}
             <div
               className="transition-all duration-300 overflow-hidden"
@@ -242,11 +242,11 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                   display: isScrolled ? "flex" : "none",
                 }}
               >
-                <div className="h-12 w-12 relative rounded-full overflow-hidden border-2 border-white shadow-sm flex-shrink-0">
+                <div className="h-12 w-12 relative rounded-full overflow-hidden border-2 border-border shadow-sm flex-shrink-0">
                   <Image src={graduate.photo || "/placeholder.svg"} alt={graduate.name} fill className="object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <h2 className="font-bold text-lg truncate">{graduate.name}</h2>
+                  <h2 className="font-bold text-lg truncate text-card-foreground">{graduate.name}</h2>
                   <p className="text-sm text-primary truncate">{graduate.position}</p>
                 </div>
               </div>
@@ -266,10 +266,10 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h2 className="font-bold text-2xl mb-1 text-white drop-shadow-md">{graduate.name}</h2>
+                    <h2 className="font-bold text-2xl mb-1 text-card-foreground drop-shadow-md">{graduate.name}</h2>
                   </div>
                 </div>
 
@@ -301,7 +301,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors text-sm"
                           >
                             {getSocialIcon(key)}
-                            <span>{key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                            <span>{key === "x" ? "X (Twitter)" : key.charAt(0).toUpperCase() + key.slice(1)}</span>
                           </a>
                         ))}
                       </div>
@@ -312,7 +312,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
             </div>
 
             {/* Tabs siempre visibles */}
-            <div className="px-6 border-b bg-white">
+            <div className="px-6 border-b bg-card">
               <Tabs defaultValue="perfil" value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="w-full justify-start bg-secondary/50">
                   <TabsTrigger value="perfil">Perfil</TabsTrigger>
@@ -496,7 +496,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
                   <h4 className="text-lg font-medium mb-4">Proyectos destacados</h4>
                   <div className="space-y-6">
                     {extendedData.projects.map((project, index) => (
-                      <div key={index} className="p-4 border border-border/50 rounded-lg bg-white shadow-sm">
+                      <div key={index} className="p-4 border border-border/50 rounded-lg bg-card shadow-sm">
                         <div className="flex justify-between items-start mb-2">
                           <h5 className="font-medium text-lg">{project.name}</h5>
                           <Badge variant="outline">{project.year}</Badge>
