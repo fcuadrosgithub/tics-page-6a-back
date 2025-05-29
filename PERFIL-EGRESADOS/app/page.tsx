@@ -4,8 +4,8 @@ import { GraduateProfiles } from "@/components/graduate-profiles"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-white to-secondary/20">
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-sm">
+    <div className="flex min-h-screen flex-col bg-background">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
         <div className="container flex h-16 items-center justify-between">
           <MainNav />
           <ThemeToggle />
@@ -25,7 +25,7 @@ export default function Home() {
           <GraduateProfiles />
         </section>
       </main>
-      <footer className="border-t py-6 bg-white">
+      <footer className="border-t py-6 bg-background">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-center text-sm text-muted-foreground md:text-left">
             &copy; {new Date().getFullYear()} Instituto Tecnológico Superior del Occidente del Estado de Hidalgo. Todos

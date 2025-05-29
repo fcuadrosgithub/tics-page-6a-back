@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Linkedin, Github, Twitter, Globe, Mail } from "lucide-react"
+import { Linkedin, Github, Globe, Mail, X } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import type { Graduate } from "@/types/graduate"
 
@@ -17,7 +17,7 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
 
   const item = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    show: { opacity: 1, y: 0, transition: { duration: 0.0 } },
   }
 
   const getSocialIcon = (key: string) => {
@@ -27,7 +27,8 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
       case "github":
         return <Github className="h-4 w-4" />
       case "twitter":
-        return <Twitter className="h-4 w-4" />
+      case "x":
+        return <X className="h-4 w-4" />
       case "website":
         return <Globe className="h-4 w-4" />
       case "email":
@@ -49,7 +50,7 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
       onClick={() => onClick(graduate)}
       className="cursor-pointer"
     >
-      <Card className="overflow-hidden h-full border border-border/30 hover:border-primary/20 transition-colors shadow-sm hover:shadow-md rounded-2xl bg-gradient-to-b from-white to-secondary/30">
+      <Card className="overflow-hidden h-full border border-border/30 hover:border-primary/20 transition-colors shadow-sm hover:shadow-md rounded-2xl bg-gradient-to-b from-card to-card/80 dark:from-card dark:to-card/60">
         <CardContent className="p-0">
           <div className="relative">
             <div className="aspect-[4/3] relative overflow-hidden rounded-t-2xl">
@@ -60,10 +61,10 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
                 className="object-cover transition-transform duration-500"
                 style={{ transform: isHovered ? "scale(1.05)" : "scale(1)" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/40 to-transparent dark:from-card/95 dark:via-card/50" />
             </div>
             <div className="p-4">
-              <h3 className="font-medium text-lg">{graduate.name}</h3>
+              <h3 className="font-medium text-lg text-card-foreground">{graduate.name}</h3>
               <p className="text-primary text-sm font-medium">{graduate.position}</p>
               <p className="text-xs text-muted-foreground mt-1">{graduate.company}</p>
             </div>
@@ -80,8 +81,10 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
                     href={value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-secondary hover:bg-primary/10 hover:text-primary transition-colors"
-                    title={key.charAt(0).toUpperCase() + key.slice(1)}
+                    className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-secondary hover:bg-primary/10 hover:text-primary transition-colors dark:bg-secondary/80 dark:hover:bg-primary/20"
+                    title={
+                      key === "twitter" || key === "x" ? "X (Twitter)" : key.charAt(0).toUpperCase() + key.slice(1)
+                    }
                     onClick={(e) => e.stopPropagation()}
                   >
                     {getSocialIcon(key)}
