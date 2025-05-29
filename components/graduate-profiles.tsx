@@ -32,7 +32,7 @@ const initialGraduates: Graduate[] = [
     socialLinks: {
       linkedin: "https://linkedin.com/in/anagarcia",
       github: "https://github.com/anagarcia",
-      twitter: "https://twitter.com/anagarcia",
+      X: "https://X.com/anagarcia",
     },
     gender: "femenino",
     area: "Desarrollo de Software",
@@ -98,7 +98,7 @@ const initialGraduates: Graduate[] = [
     description: "Especialista en seguridad informática con enfoque en protección de infraestructuras críticas.",
     socialLinks: {
       linkedin: "https://linkedin.com/in/laurasanchez",
-      twitter: "https://twitter.com/laurasanchez",
+      X: "https://X.com/laurasanchez",
     },
     gender: "femenino",
     area: "Ciberseguridad",
@@ -130,7 +130,7 @@ const initialGraduates: Graduate[] = [
     socialLinks: {
       linkedin: "https://linkedin.com/in/sofiarodriguez",
       github: "https://github.com/sofiarodriguez",
-      twitter: "https://twitter.com/sofiarodriguez",
+      X: "https://X.com/sofiarodriguez",
     },
     gender: "femenino",
     area: "Ciencia de Datos",

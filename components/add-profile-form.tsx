@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import type { Graduate, Education, Experience, Project, Certification, Language, ContactInfo } from "@/types/graduate"
 import Image from "next/image"
+import { link } from "fs"
 
 interface AddProfileFormProps {
   onSubmit: (graduate: Graduate) => void
@@ -21,7 +22,7 @@ interface AddProfileFormProps {
   yearOptions: string[]
 }
 
-type SocialMediaType = "linkedin" | "github" | "twitter" | "website" | "email"
+type SocialMediaType = "linkedin" | "github" | "X" | "website" | "email"
 
 interface SocialMediaOption {
   id: SocialMediaType
@@ -44,10 +45,10 @@ const socialMediaOptions: SocialMediaOption[] = [
     placeholder: "https://github.com/username",
   },
   {
-    id: "twitter",
-    label: "Twitter",
+    id: "X",
+    label: "X",
     icon: <Twitter className="h-4 w-4" />,
-    placeholder: "https://twitter.com/username",
+    placeholder: "https://X.com/username",
   },
   {
     id: "website",
@@ -85,14 +86,15 @@ const predefinedAreas = [
 const getDefaultPhoto = (gender: string): string => {
   switch (gender) {
     case "masculino":
-      return "/placeholder.svg?height=300&width=300&text=👨"
+      return "/hombre.jpg"
     case "femenino":
-      return "/placeholder.svg?height=300&width=300&text=👩"
+      return "/mujer.jpg"
     case "indefinido":
     default:
-      return "/placeholder.svg?height=300&width=300&text=👤"
+      return "/mujer.jpg"
   }
 }
+
 
 export function AddProfileForm({ onSubmit, onCancel, yearOptions }: AddProfileFormProps) {
   const [activeTab, setActiveTab] = useState("perfil")

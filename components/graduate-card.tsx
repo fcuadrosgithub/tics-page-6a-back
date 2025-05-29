@@ -26,7 +26,7 @@ export function GraduateCard({ graduate, onClick }: GraduateCardProps) {
         return <Linkedin className="h-4 w-4" />
       case "github":
         return <Github className="h-4 w-4" />
-      case "twitter":
+      case "X":
         return <Twitter className="h-4 w-4" />
       case "website":
         return <Globe className="h-4 w-4" />

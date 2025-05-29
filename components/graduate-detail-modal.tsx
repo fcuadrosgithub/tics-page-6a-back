@@ -175,7 +175,7 @@ export function GraduateDetailModal({ graduate, onClose }: GraduateDetailModalPr
         return <Linkedin className="h-5 w-5" />
       case "github":
         return <Github className="h-5 w-5" />
-      case "twitter":
+      case "X":
         return <Twitter className="h-5 w-5" />
       case "website":
         return <Globe className="h-5 w-5" />
